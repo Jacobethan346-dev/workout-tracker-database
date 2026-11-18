@@ -1,0 +1,19 @@
+USE workout_tracker_portfolio;
+-- After loading files 00 through 04, these expected counts should match.
+SELECT 'USERS' AS TableName, COUNT(*) AS Actual, 5 AS Expected FROM USERS
+UNION ALL SELECT 'MUSCLE_GROUPS',COUNT(*),6 FROM MUSCLE_GROUPS
+UNION ALL SELECT 'BODY_PARTS',COUNT(*),18 FROM BODY_PARTS
+UNION ALL SELECT 'EXERCISES',COUNT(*),18 FROM EXERCISES
+UNION ALL SELECT 'EXERCISE_MUSCLES',COUNT(*),44 FROM EXERCISE_MUSCLES
+UNION ALL SELECT 'WORKOUTS',COUNT(*),10 FROM WORKOUTS
+UNION ALL SELECT 'WORKOUT_SETS',COUNT(*),39 FROM WORKOUT_SETS
+UNION ALL SELECT 'PERSONAL_RECORDS',COUNT(*),10 FROM PERSONAL_RECORDS
+UNION ALL SELECT 'BODY_MEASUREMENTS',COUNT(*),8 FROM BODY_MEASUREMENTS;
+
+-- Independent expected sample results; all three columns should be 1.
+SELECT
+ ((SELECT SUM(Weight*Reps) FROM WORKOUT_SETS WHERE WorkoutID=1)=4104) AS PushVolumeMatches,
+ ((SELECT TotalVolume_kg FROM vw_weekly_volume
+   WHERE UserID=1 AND MuscleGroup='Legs' AND YearWeek=202610)=3410) AS LegVolumeMatches,
+ ((SELECT MaxWeightLifted FROM vw_bench_progression
+   WHERE UserID=1 AND WorkoutDate='2026-03-08')=102.50) AS BenchProgressionMatches;
