@@ -1,0 +1,9 @@
+# Local credentials and generated exports
+.env
+.env.*
+!.env.example
+.my.cnf
+*.log
+*.dump
+.DS_Store
+Thumbs.db
